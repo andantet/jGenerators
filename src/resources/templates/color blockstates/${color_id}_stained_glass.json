@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "${mod_id}:block/${color_id}_stained_glass" }
+    }
+}

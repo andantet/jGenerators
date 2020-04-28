@@ -14,15 +14,17 @@ public class Generate {
     public static class GenerationType {
         public static void template() throws IOException {
             // get input
-            String[] colorData = { Input.getString("Template type").toLowerCase(), Input.getString("Color ID").toLowerCase(), Input.getString("Mod ID").toLowerCase() };
-            String templateId = colorData[0];
-            colorId = colorData[1];
-            modId = colorData[2];
+            String[] colorData = {  Input.getString("Color ID").toLowerCase(), Input.getString("Mod ID").toLowerCase() };
+            colorId = colorData[0];
+            modId = colorData[1];
 
             // generate skeleton
-            generateFolders(new String[]{ "assets", "assets/" + modId, "assets/" + modId + "/models", "assets/" + modId + "/models/block" });
+            generateFolders(new String[]{ "assets", "assets/" + modId, "assets/" + modId });
 
-            generateFromTemplate(templateId);
+            for (String templateId : Input.getString("Template IDs", "separated with commas").toLowerCase().split(",")) {
+                generateFolder("assets/" + modId + "/" + templateId);
+                generateFromTemplate(templateId, "assets/${mod_id}/" + templateId);
+            }
         }
     }
 
@@ -46,10 +48,9 @@ public class Generate {
     private static String loadTemplate(String path) {
         StringBuilder contentBuilder = new StringBuilder();
 
-        try (Stream<String> stream = Files.lines( Paths.get(path), StandardCharsets.UTF_8)) {
+        try (Stream<String> stream = Files.lines(Paths.get(path), StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s).append("\n"));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -58,12 +59,12 @@ public class Generate {
     private static String runTemplateFilters(String str) {
         return str.replace("${color_id}", colorId).replace("${mod_id}", modId);
     }
-    private static void generateFromTemplate(String folderId) throws IOException {
+    private static void generateFromTemplate(String folderId, String outputDir) throws IOException {
         File folder = new File("src/resources/templates/" + folderId);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) for (File file : listOfFiles) {
             if (file.isFile()) {
-                Main.write(runTemplateFilters(loadTemplate(file.getPath())), "assets/" + modId + "/models/block/" + runTemplateFilters(file.getName()));
+                Main.write(runTemplateFilters(loadTemplate(file.getPath())), runTemplateFilters(outputDir + "/" + file.getName()));
             } else Main.log("Ignored " + file.getName() + ", not file");
         }
     }

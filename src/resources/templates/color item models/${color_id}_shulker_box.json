@@ -1,0 +1,6 @@
+{
+    "parent": "item/template_shulker_box",
+    "textures": {
+        "particle": "${mod_id}:block/${color_id}_shulker_box"
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_terracotta",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:terracotta"
+    },
+    "X": {
+      "item": "${mod_id}:${color_id}_dye"
+    }
+  },
+  "result": {
+    "item": "${mod_id}:${color_id}_terracotta",
+    "count": 8
+  }
+}

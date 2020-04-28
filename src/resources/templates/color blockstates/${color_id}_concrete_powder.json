@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "": [
+            { "model": "${mod_id}:block/${color_id}_concrete_powder" },
+            { "model": "${mod_id}:block/${color_id}_concrete_powder", "y": 90 },
+            { "model": "${mod_id}:block/${color_id}_concrete_powder", "y": 180 },
+            { "model": "${mod_id}:block/${color_id}_concrete_powder", "y": 270 }
+        ]
+    }
+}

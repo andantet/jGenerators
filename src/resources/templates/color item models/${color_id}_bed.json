@@ -1,0 +1,6 @@
+{
+    "parent": "item/template_bed",
+    "textures": {
+        "particle": "${mod_id}:block/${color_id}_wool"
+    }
+}

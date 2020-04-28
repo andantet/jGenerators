@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "${mod_id}:block/${color_id}_glazed_terracotta" },
+        "facing=west": { "model": "${mod_id}:block/${color_id}_glazed_terracotta", "y": 90 },
+        "facing=north": { "model": "${mod_id}:block/${color_id}_glazed_terracotta", "y": 180 },
+        "facing=east": { "model": "${mod_id}:block/${color_id}_glazed_terracotta", "y": 270 }
+    }
+}

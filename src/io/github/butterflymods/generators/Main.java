@@ -61,7 +61,7 @@ public class Main {
         }
         FileWriter writer = new FileWriter(file);
         log("Writing to " + file);
-        writer.write(data + "\n");
+        writer.write(data);
         writer.close();
     }
     public static void createFolder(String loc) {
