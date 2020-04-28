@@ -1,0 +1,5 @@
+{
+    "textures": {
+        "particle": "${mod_id}:block/${color_id}_shulker_box"
+    }
+}

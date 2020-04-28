@@ -1,54 +1,33 @@
 package io.github.butterflymods.generators;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class Generate {
-    public static String[] colorBlocks = { "wool", "terracotta", "glazed_terracotta", "concrete", "concrete_powder", "stained_glass", "stained_glass_pane", "carpet", "shulker_box", "banner", "wall_banner", "bed" };
-    public static String[] colorItems = { "dye", "wool", "terracotta", "glazed_terracotta", "concrete", "concrete_powder", "stained_glass", "stained_glass_pane", "carpet", "shulker_box", "banner", "bed" };
+    static String colorId = "color_id";
+    static String modId;
 
-    public static String[] notDefaultColorBlocks = { "glazed_terracotta", "stained_glass_pane", "carpet", "banner", "wall_banner", "bed" };
+    public static class GenerationType {
+        public static void template() throws IOException {
+            // get input
+            String[] colorData = { Input.getString("Template type").toLowerCase(), Input.getString("Color ID").toLowerCase(), Input.getString("Mod ID").toLowerCase() };
+            String templateId = colorData[0];
+            colorId = colorData[1];
+            modId = colorData[2];
 
-    public static String[] folders = { "", "blockstates", "models", "models/item", "models/block" };
+            // generate skeleton
+            generateFolders(new String[]{ "assets", "assets/" + modId, "assets/" + modId + "/models", "assets/" + modId + "/models/block" });
 
-    public static void colorFiles() throws IOException {
-        Main.log("Input color id:",false);
-        String color = Main.INPUT_SCANNER.nextLine();
-
-        for (String i : folders) Main.createFolder(i);
-
-        for (String i : colorItems) {
-            Main.write(jsonContents("\"parent\":\"block/" + i + "\""), "models/item/" + color + "_" + i + ".json");
-        }
-        String mod_id = "painttheworld";
-        for (String i : colorBlocks) {
-            switch (i) {
-                case "glazed_terracotta":
-                    Main.write(simpleBlockModel("template_glazed_terracotta", "pattern", color, mod_id, i), modelPath(color, "block", i));
-                    break;
-                case "stained_glass_pane":
-                    Main.write(simpleBlockModel("template_glass_pane_noside", "pane", color, mod_id, i), modelPath(color, "block", i + "_noside"));
-                    Main.write(simpleBlockModel("template_glass_pane_noside_alt", "pane", color, mod_id, i), modelPath(color, "block", i + "_noside_alt"));
-                    Main.write(simpleBlockModel("white_stained_glass_pane_post", "pane", color, mod_id, i), modelPath(color, "block", i + "_post"));
-                    Main.write(simpleBlockModel("white_stained_glass_pane_side", "pane", color, mod_id, i), modelPath(color, "block", i + "_side"));
-                    Main.write(simpleBlockModel("white_stained_glass_pane_side_alt", "pane", color, mod_id, i), modelPath(color, "block", i + "_side_alt"));
-                    break;
-            }
-
-            boolean hasGenerated = false;
-            for (String i2 : notDefaultColorBlocks) {
-                if (i2.equals(i)) {
-                    hasGenerated = true;
-                    break;
-                }
-            }
-
-            Main.write(simpleBlockstate(color, i, mod_id), "blockstates/" + color + "_" + i + ".json");
-            if (!hasGenerated) Main.write(simpleBlockModel("cube_all", "all", color, mod_id, i), modelPath(color, "block", i));
+            generateFromTemplate(templateId);
         }
     }
 
     public static void fileWithContents() {
-        String[] fileWriteInput = GeneratorInput.getArray();
+        String[] fileWriteInput = Input.getArray();
         try {
             Main.write(fileWriteInput[0], fileWriteInput[1]);
         } catch (Exception e) {
@@ -56,18 +35,36 @@ public class Generate {
         }
     }
 
-    private static String jsonContents(String contents) {
-        return "{\n    " + contents + "\n}";
+    public static void generateFolders(String[] folders) {
+        Main.createFolder("");
+        for (String i : folders) generateFolder(i);
     }
-    private static String simpleBlockModel(String parent, String textureId, String color, String mod_id, String block) {
-        if (block.startsWith("stained_glass_pane")) {
-            return jsonContents("\"parent\":\"block/" + parent + "\",\n    \"textures\": {\n        \"" + textureId + "\": \"" + mod_id + ":block/" + color + "_stained_glass\"\n    }");
-        } else return jsonContents("\"parent\":\"block/" + parent + "\",\n    \"textures\": {\n        \"" + textureId + "\": \"" + mod_id + ":block/" + color + "_" + block + "\"\n    }");
+    public static void generateFolder(String folder) {
+        Main.createFolder(folder);
     }
-    private static String modelPath(String color, String modelType, String block) {
-        return "models/" + modelType + "/" + color + "_" + block + ".json";
+
+    private static String loadTemplate(String path) {
+        StringBuilder contentBuilder = new StringBuilder();
+
+        try (Stream<String> stream = Files.lines( Paths.get(path), StandardCharsets.UTF_8)) {
+            stream.forEach(s -> contentBuilder.append(s).append("\n"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return contentBuilder.toString();
     }
-    private static String simpleBlockstate(String color, String block, String mod_id) {
-        return jsonContents("\"variants\": {\n        \"\": { \"model\": \"" + mod_id + ":block/" + color + "_" + block + "\" }\n    }");
+    private static String runTemplateFilters(String str) {
+        return str.replace("${color_id}", colorId).replace("${mod_id}", modId);
+    }
+    private static void generateFromTemplate(String folderId) throws IOException {
+        File folder = new File("src/resources/templates/" + folderId);
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) for (File file : listOfFiles) {
+            if (file.isFile()) {
+                Main.write(runTemplateFilters(loadTemplate(file.getPath())), "assets/" + modId + "/models/block/" + runTemplateFilters(file.getName()));
+            } else Main.log("Ignored " + file.getName() + ", not file");
+        }
     }
 }

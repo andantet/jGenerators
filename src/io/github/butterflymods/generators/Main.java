@@ -1,9 +1,10 @@
 package io.github.butterflymods.generators;
 
+import java.awt.Desktop;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -11,22 +12,29 @@ import java.util.Scanner;
 public class Main {
     public static Scanner INPUT_SCANNER = new Scanner(System.in);
 
-    public static String outputDir = "output" + "/" + LocalDateTime.now().toString().replace(":", "");
-    public static String[] generatorTypes = { "color files", "file with contents" };
+    public static String outputDir = "output/" + LocalDateTime.now().toString().replace(":", "");
+    public static String[] generatorTypes = { "template", "file with contents" };
 
     public static void main(String[] args) throws IOException {
         log("Started");
 
         checkGeneratorType();
+
+        String outputPath = Paths.get(outputDir).toAbsolutePath().toString();
+        log("Output to " + outputPath);
+        Desktop.getDesktop().open(new File(outputPath));
     }
 
     public static void checkGeneratorType() throws IOException {
         log("Please enter a generator type: " + Arrays.toString(generatorTypes));
-        String generatorTypeInput = INPUT_SCANNER.nextLine().toLowerCase();
+        String generatorTypeInput = Input.getString().toLowerCase();
+
+        createFolder("output", false);
+        createFolder(outputDir, false);
 
         switch (generatorTypeInput) {
-            case "color files":
-                Generate.colorFiles();
+            case "template":
+                Generate.GenerationType.template();
                 return;
             case "file with contents":
                 Generate.fileWithContents();
@@ -40,33 +48,42 @@ public class Main {
     public static void write(String data, String loc) throws IOException {
         loc = outputDir + "/" + loc;
         File file = new File(loc);
-        if (file.createNewFile()) log("File created");
+        if (file.createNewFile()) log("Created file " + file);
         else {
-            log("File already exists - override?\n    (true/false)");
-
-            boolean input = INPUT_SCANNER.nextBoolean();
+            boolean input = Input.getBool("File already exists - override");
             if (input) {
-                file.delete();
+                if (!file.delete()) log("File override failed!");
                 log("Continuing...");
             } else {
                 log("Stopping...");
                 return;
             }
         }
-
         FileWriter writer = new FileWriter(file);
-        log("Writing to " + file.getAbsolutePath() + "...");
+        log("Writing to " + file);
         writer.write(data + "\n");
         writer.close();
     }
     public static void createFolder(String loc) {
-        new File(Main.outputDir + "/" + loc).mkdir();
+        File folder = new File(outputDir + "/" + loc);
+
+        log("Creating folder " + folder);
+        if (!folder.mkdir()) log("Folder creation failed!");
+    }
+    public static void createFolder(String loc, Boolean prependOutputDir) {
+        if (prependOutputDir) createFolder(loc);
+            else {
+                File folder = new File(loc);
+
+                log("Creating folder " + folder.getAbsolutePath());
+                if (!folder.mkdir()) log("Folder creation failed!");
+        }
     }
 
     // utils
     public static void log(String text, boolean prefix) {
         String output = text;
-        if (prefix) output = "[BF-G] " + output;
+        if (prefix) output = "[TTB-G] " + output;
         else output = "    " + output;
 
         System.out.println(output);
