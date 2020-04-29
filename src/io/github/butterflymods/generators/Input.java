@@ -1,19 +1,22 @@
 package io.github.butterflymods.generators;
 
 public class Input {
-    public static String[] getArray() {
-        return new String[]{ getString("Content"), getString("File path") };
+    public static String[] getArray(String title) {
+        return Input.getString(title).toLowerCase().split(",");
+    }
+    public static String[] getArray(String title, String note) {
+        return Input.getString(title, note).toLowerCase().split(",");
     }
 
     public static String getString() {
         return Main.INPUT_SCANNER.nextLine();
     }
     public static String getString(String title) {
-        Main.log(title + "? (string)", false);
+        log(title + "? (string)");
         return getString();
     }
     public static String getString(String title, String note) {
-        Main.log(title + "? (string, " + note + ")", false);
+        log(title + "? (string, " + note + ")");
         return getString();
     }
 
@@ -21,7 +24,15 @@ public class Input {
         return Main.INPUT_SCANNER.nextBoolean();
     }
     public static Boolean getBool(String title) {
-        Main.log(title + "? (true/false)", false);
+        log(title + "? (true/false)");
         return getBool();
+    }
+    public static Boolean getBool(String title, String note) {
+        log(title + "? (true/false, " + note + ")");
+        return getBool();
+    }
+
+    private static void log(String text) {
+        System.out.println("    " + text);
     }
 }
