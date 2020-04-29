@@ -8,22 +8,18 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class Generate {
-    static String colorId = "color_id";
-    static String modId;
+    static String[] colorIds = { "color_id" };
+    static String[] modIds;
 
     public static class GenerationType {
         public static void template() throws IOException {
             // get input
-            String[] colorData = {  Input.getString("Color ID").toLowerCase(), Input.getString("Mod ID").toLowerCase() };
-            colorId = colorData[0];
-            modId = colorData[1];
-
-            // generate skeleton
-            generateFolders(new String[]{ "assets", "assets/" + modId, "assets/" + modId });
+            String[][] colorData = {  Input.getString("Color IDs", "separated with commas").toLowerCase().split(","), Input.getString("Mod ID", "separated with commas").toLowerCase().split(",") };
+            colorIds = colorData[0];
+            modIds = colorData[1];
 
             for (String templateId : Input.getString("Template IDs", "separated with commas").toLowerCase().split(",")) {
-                generateFolder("assets/" + modId + "/" + templateId);
-                generateFromTemplate(templateId, "assets/${mod_id}/" + templateId);
+                generateFromTemplate(templateId);
             }
         }
     }
@@ -37,10 +33,6 @@ public class Generate {
         }
     }
 
-    public static void generateFolders(String[] folders) {
-        Main.createFolder("");
-        for (String i : folders) generateFolder(i);
-    }
     public static void generateFolder(String folder) {
         Main.createFolder(folder);
     }
@@ -56,16 +48,23 @@ public class Generate {
 
         return contentBuilder.toString();
     }
-    private static String runTemplateFilters(String str) {
+    private static String runTemplateFilters(String str, String colorId, String modId) {
         return str.replace("${color_id}", colorId).replace("${mod_id}", modId);
     }
-    private static void generateFromTemplate(String folderId, String outputDir) throws IOException {
-        File folder = new File("src/resources/templates/" + folderId);
+    private static void generateFromTemplate(String templateId) throws IOException {
+        File folder = new File("src/resources/templates/" + templateId);
         File[] listOfFiles = folder.listFiles();
-        if (listOfFiles != null) for (File file : listOfFiles) {
-            if (file.isFile()) {
-                Main.write(runTemplateFilters(loadTemplate(file.getPath())), runTemplateFilters(outputDir + "/" + file.getName()));
-            } else Main.log("Ignored " + file.getName() + ", not file");
+
+        if (listOfFiles != null) for (File template : listOfFiles) {
+            if (template.isFile()) {
+                for (String modId : modIds) {
+                    generateFolder(templateId + "/" + modId);
+
+                    for (String colorId: colorIds) {
+                        Main.write(runTemplateFilters(loadTemplate(template.getPath()), colorId, modId), runTemplateFilters(templateId + "/${mod_id}/" + template.getName(), colorId, modId));
+                    }
+                }
+            } else Main.log("Ignored " + template.getName() + ", not file");
         }
     }
 }

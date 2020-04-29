@@ -47,10 +47,11 @@ public class Main {
 
     public static void write(String data, String loc) throws IOException {
         loc = outputDir + "/" + loc;
+        boolean catch1 = new File(new File(loc).getParent()).mkdirs();
         File file = new File(loc);
         if (file.createNewFile()) log("Created file " + file);
         else {
-            boolean input = Input.getBool("File already exists - override");
+            boolean input = Input.getBool("File already exists - override " + file.getName());
             if (input) {
                 if (!file.delete()) log("File override failed!");
                 log("Continuing...");
@@ -62,13 +63,14 @@ public class Main {
         FileWriter writer = new FileWriter(file);
         log("Writing to " + file);
         writer.write(data);
+
         writer.close();
     }
     public static void createFolder(String loc) {
         File folder = new File(outputDir + "/" + loc);
 
         log("Creating folder " + folder);
-        if (!folder.mkdir()) log("Folder creation failed!");
+        if (!folder.mkdirs()) log("Folder creation failed!");
     }
     public static void createFolder(String loc, Boolean prependOutputDir) {
         if (prependOutputDir) createFolder(loc);
@@ -76,7 +78,7 @@ public class Main {
                 File folder = new File(loc);
 
                 log("Creating folder " + folder.getAbsolutePath());
-                if (!folder.mkdir()) log("Folder creation failed!");
+                if (!folder.mkdirs()) log("Folder creation failed!");
         }
     }
 
