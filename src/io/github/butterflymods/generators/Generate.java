@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class Generate {
     static String[] colorIds = { "color_id" };
-    static String[] modIds;
+    static String[] modIds = { "minecraft" };
 
     public static class GenerationType {
         public static void template() throws IOException {
@@ -41,7 +41,10 @@ public class Generate {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Stream<String> stream = Files.lines(Paths.get(path), StandardCharsets.UTF_8)) {
-            stream.forEach(s -> contentBuilder.append(s).append("\n"));
+            stream.forEach(s -> {
+                contentBuilder.append(s).append("\n");
+                Main.GENERATED_LINES++;
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,6 +65,7 @@ public class Generate {
 
                     for (String colorId: colorIds) {
                         Main.write(runTemplateFilters(loadTemplate(template.getPath()), colorId, modId), runTemplateFilters(templateId + "/${mod_id}/" + template.getName(), colorId, modId));
+                        Main.GENERATED_FILES++;
                     }
                 }
             } else Main.log("Ignored " + template.getName() + ", not file");

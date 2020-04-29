@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 public class Main {
     public static Scanner INPUT_SCANNER = new Scanner(System.in);
+    public static int GENERATED_LINES = 0;
+    public static int GENERATED_FILES = 0;
 
     public static String outputDir = "output/" + LocalDateTime.now().toString().replace(":", "");
     public static String[] generatorTypes = { "template", "file with contents" };
@@ -22,6 +24,7 @@ public class Main {
 
         String outputPath = Paths.get(outputDir).toAbsolutePath().toString();
         log("Output to " + outputPath);
+        log("Generated " + GENERATED_LINES + " lines, in " + GENERATED_FILES + " files");
         Desktop.getDesktop().open(new File(outputPath));
     }
 
@@ -85,7 +88,7 @@ public class Main {
     // utils
     public static void log(String text, boolean prefix) {
         String output = text;
-        if (prefix) output = "[TTB-G] " + output;
+        if (prefix) output = "[BM-G] " + output;
         else output = "    " + output;
 
         System.out.println(output);
