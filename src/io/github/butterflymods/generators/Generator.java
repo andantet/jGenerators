@@ -2,6 +2,7 @@ package io.github.butterflymods.generators;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static io.github.butterflymods.generators.Main.*;
@@ -9,7 +10,20 @@ import static io.github.butterflymods.generators.Main.*;
 public class Generator {
     public static class template {
         public template() throws IOException {
-            //
+            // templates folder
+            File templatesFolder = new File("src/resources/templates");
+            File[] templatesFolderContents = templatesFolder.listFiles();
+
+            String[] templateIds = { "" };
+            for (File i : Objects.requireNonNull(templatesFolderContents)) {
+                if (!i.isFile()) {
+                    if (templateIds[0].isEmpty()) templateIds[0] = i.getName();
+                        else appendToArray(templateIds, i.getName());
+                }
+            }
+
+            log("Templates: " + Arrays.toString(templateIds));
+
             for (String templateIdInput : Input.getString("Template IDs", "separated with commas").toLowerCase().split(",")) {
                 // check if empty
                 if (templateIdInput.isEmpty()) {
@@ -18,15 +32,11 @@ public class Generator {
                     return;
                 }
 
-                // templates folder
-                File templatesFolder = new File("src/resources/templates");
-                File[] templatesFolderContents = templatesFolder.listFiles();
-
                 // check template exists
                 boolean templateExists = false;
                 File[] templateFiles = {};
-                for (File i : Objects.requireNonNull(templatesFolderContents)) {
-                    if (i.getName().equals(templateIdInput)) {
+                for (String i : Objects.requireNonNull(templateIds)) {
+                    if (i.equals(templateIdInput)) {
                         templateExists = true;
                         templateFiles = new File(templatesFolder.toString() + "/" + templateIdInput).listFiles();
                     }
@@ -38,7 +48,7 @@ public class Generator {
                 }
 
                 // load definitions
-                String[] definitionsFile = readStringFromFile(templatesFolder + "/definitions.properties").split("\n");
+                String[] definitionsFile = readStringFromFile(templatesFolder + "/" + templateIdInput + "/definitions.properties").split("\n");
                 String[][] definitions = {};
                 for (String i : definitionsFile) {
                     if (!(i.isEmpty() || i.startsWith("#"))) {
@@ -55,7 +65,7 @@ public class Generator {
         private static void generate(File[] files, String[][] definitions) throws IOException {
             for (File templateFile : Objects.requireNonNull(files)) {
                 if (templateFile.isFile()) {
-                    Main.output(fillDefinitions(readStringFromFile(templateFile.getPath()), definitions), fillDefinitions(templateFile.getPath(), definitions));
+                    if (!templateFile.getName().equals("definitions.properties")) Main.output(fillDefinitions(readStringFromFile(templateFile.getPath()), definitions), fillDefinitions(templateFile.getPath(), definitions));
                 } else generate(templateFile.listFiles(), definitions); // if folder, check that folder
             }
         }
