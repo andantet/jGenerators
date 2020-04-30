@@ -18,7 +18,7 @@ public class Generator {
             for (File i : Objects.requireNonNull(templatesFolderContents)) {
                 if (!i.isFile()) {
                     if (templateIds[0].isEmpty()) templateIds[0] = i.getName();
-                        else appendToArray(templateIds, i.getName());
+                        else templateIds = (String[])appendToArray(templateIds, i.getName());
                 }
             }
 
