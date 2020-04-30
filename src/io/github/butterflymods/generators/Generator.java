@@ -65,7 +65,7 @@ public class Generator {
         private static void generate(File[] files, String[][] definitions) throws IOException {
             for (File templateFile : Objects.requireNonNull(files)) {
                 if (templateFile.isFile()) {
-                    if (!templateFile.getName().equals("definitions.properties")) Main.output(fillDefinitions(readStringFromFile(templateFile.getPath()), definitions), fillDefinitions(templateFile.getPath(), definitions));
+                    if (!(templateFile.getName().equals("definitions.properties") || templateFile.getName().startsWith("_"))) Main.output(fillDefinitions(readStringFromFile(templateFile.getPath()), definitions), fillDefinitions(templateFile.getPath(), definitions));
                 } else generate(templateFile.listFiles(), definitions); // if folder, check that folder
             }
         }
