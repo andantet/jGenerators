@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "block/purple_shulker_box" }
+        "": { "model": "${mod_id}:block/${color_id}_shulker_box" }
     }
 }
