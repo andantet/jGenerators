@@ -1,11 +1,11 @@
-package io.github.butterflymods.generators;
+package io.github.andantedevs.jgenerators;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static io.github.butterflymods.generators.Main.*;
+import static io.github.andantedevs.jgenerators.Main.*;
 
 public class Generator {
     public static class template {
@@ -83,7 +83,7 @@ public class Generator {
     public static class fileWithContents {
         public fileWithContents() throws IOException {
             String[] fileWriteInput = { Input.getString("Content"), Input.getString("Path") };
-            Main.output(fileWriteInput[0], fileWriteInput[1]);
+            Main.output(fileWriteInput[0].replace("\\n","\n"), fileWriteInput[1]);
         }
     }
 }

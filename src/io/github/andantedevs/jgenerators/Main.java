@@ -1,4 +1,4 @@
-package io.github.butterflymods.generators;
+package io.github.andantedevs.jgenerators;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -87,7 +87,7 @@ public class Main {
 
     // utils
     public static void log(String text) {
-        System.out.println("[BM-G] " + text);
+        System.out.println("[jgenerators] " + text);
     }
 
     public static String readStringFromFile(String filePath) {

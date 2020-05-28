@@ -1,4 +1,4 @@
-package io.github.butterflymods.generators;
+package io.github.andantedevs.jgenerators;
 
 public class Input {
     public static String[] getArray(String title) {
