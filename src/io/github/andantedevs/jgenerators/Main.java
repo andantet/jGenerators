@@ -1,6 +1,7 @@
 package io.github.andantedevs.jgenerators;
 
-import java.awt.Desktop;
+import io.github.andantedevs.jgenerators.util.CrashDialog;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,7 +22,18 @@ public class Main {
 
     public static String outputDir = "output/" + LocalDateTime.now().toString().replace(":", "");
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        System.out.println("Loading jGenerators");
+
+        try {
+            GeneratorGUI.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new CrashDialog(e);
+        }
+    }
+
+/*    public static void main(String[] args) throws IOException {
         // pre
         log("Started");
 
@@ -35,7 +47,7 @@ public class Main {
 
         log("Output to " + outputPath);
         log("Generated " + GENERATED_FILES + " files from " + READ_LINES + " read template lines");
-    }
+    }*/
 
     public static void checkGeneratorType() throws IOException {
         String[] generatorTypes = { "template", "file with contents" };
