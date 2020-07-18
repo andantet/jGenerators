@@ -1,0 +1,5 @@
+{
+  "textures": {
+    "particle": "${mod_id}:block/${wood_id}_planks"
+  }
+}

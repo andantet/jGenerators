@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "${mod_id}:block/${wood_id}_sapling"
+  }
+}

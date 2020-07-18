@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "${mod_id}:block/${wood_id}_pressure_plate"
+    },
+    "powered=true": {
+      "model": "${mod_id}:block/${wood_id}_pressure_plate_down"
+    }
+  }
+}

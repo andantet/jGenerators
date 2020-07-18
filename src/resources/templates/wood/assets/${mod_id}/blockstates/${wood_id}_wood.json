@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "${mod_id}:block/${wood_id}_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "${mod_id}:block/${wood_id}_wood"
+    },
+    "axis=z": {
+      "model": "${mod_id}:block/${wood_id}_wood",
+      "x": 90
+    }
+  }
+}

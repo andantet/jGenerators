@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "${mod_id}:block/${wood_id}_slab"
+    },
+    "type=double": {
+      "model": "${mod_id}:block/${wood_id}_planks"
+    },
+    "type=top": {
+      "model": "${mod_id}:block/${wood_id}_slab_top"
+    }
+  }
+}

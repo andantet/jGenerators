@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_fence_gate_wall_open",
+  "textures": {
+    "texture": "${mod_id}:block/${wood_id}_planks"
+  }
+}

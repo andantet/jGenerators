@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "${mod_id}:block/${wood_id}_leaves"
+  }
+}
