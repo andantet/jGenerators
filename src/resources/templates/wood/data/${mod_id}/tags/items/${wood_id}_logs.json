@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        "${mod_id}:${wood_id}_log",
+        "${mod_id}:${wood_id}_wood",
+        "${mod_id}:stripped_${wood_id}_log",
+        "${mod_id}:stripped_${wood_id}_wood"
+    ]
+}
