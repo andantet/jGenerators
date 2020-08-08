@@ -1,7 +1,7 @@
 # jgenerators
 Template-based Java generators.
 
-[`Demo`](https://i.imgur.com/wJquM3Z.mp4) *(outdated)*
+![Imgur](https://i.imgur.com/bz8wnNF.gif)
 
 ## Usage
 - Download the latest release [here](https://github.com/AndanteDevs/jGenerators/releases/latest)
