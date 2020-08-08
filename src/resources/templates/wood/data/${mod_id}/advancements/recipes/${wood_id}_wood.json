@@ -1,0 +1,32 @@
+{
+  "parent": "${mod_id}:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${wood_id}_wood"
+    ]
+  },
+  "criteria": {
+    "has_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${wood_id}_log"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${wood_id}_wood"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_log",
+      "has_the_recipe"
+    ]
+  ]
+}

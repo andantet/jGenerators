@@ -1,0 +1,28 @@
+{
+  "parent": "${mod_id}:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${wood_id}_boat"
+    ]
+  },
+  "criteria": {
+    "in_water": {
+      "trigger": "minecraft:enter_block",
+      "conditions": {
+        "block": "minecraft:water"
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${wood_id}_boat"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "in_water",
+      "has_the_recipe"
+    ]
+  ]
+}
