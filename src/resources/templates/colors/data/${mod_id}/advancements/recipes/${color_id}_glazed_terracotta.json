@@ -1,0 +1,32 @@
+{
+  "parent": "${mod_id}:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${color_id}_glazed_terracotta"
+    ]
+  },
+  "criteria": {
+    "has_${color_id}_terracotta": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${color_id}_terracotta"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${color_id}_glazed_terracotta"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_${color_id}_terracotta",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "${mod_id}:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${color_id}_carpet_from_white_carpet"
+    ]
+  },
+  "criteria": {
+    "has_white_carpet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:white_carpet"
+          }
+        ]
+      }
+    },
+    "has_${color_id}_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${color_id}_dye"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${color_id}_carpet_from_white_carpet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_white_carpet",
+      "has_${color_id}_dye",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${block_id}_slab_from_${block_id}_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_${block_id}": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${block_id}"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${block_id}_slab_from_${block_id}_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_${block_id}",
+      "has_the_recipe"
+    ]
+  ]
+}

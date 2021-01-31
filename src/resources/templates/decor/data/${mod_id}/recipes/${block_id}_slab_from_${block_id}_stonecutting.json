@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "${mod_id}:${block_id}"
+  },
+  "result": "${mod_id}:${block_id}_slab",
+  "count": 2
+}

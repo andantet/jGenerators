@@ -1,0 +1,6 @@
+{
+  "block.${mod_id}.${block_id}": "${block_name}",
+  "block.${mod_id}.${block_id}_wall": "${block_name} Wall",
+  "block.${mod_id}.${block_id}_slab": "${block_name} Slab",
+  "block.${mod_id}.${block_id}_stairs": "${block_name} Stairs"
+}

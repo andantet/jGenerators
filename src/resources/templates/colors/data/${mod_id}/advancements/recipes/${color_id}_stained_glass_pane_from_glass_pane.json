@@ -1,0 +1,43 @@
+{
+  "parent": "${mod_id}:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${color_id}_stained_glass_pane_from_glass_pane"
+    ]
+  },
+  "criteria": {
+    "has_glass_pane": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:glass_pane"
+          }
+        ]
+      }
+    },
+    "has_${color_id}_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${color_id}_dye"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${color_id}_stained_glass_pane_from_glass_pane"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_glass_pane",
+      "has_${color_id}_dye",
+      "has_the_recipe"
+    ]
+  ]
+}

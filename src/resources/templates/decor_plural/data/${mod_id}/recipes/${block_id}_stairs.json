@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "${mod_id}:${block_id}s"
+    }
+  },
+  "result": {
+    "item": "${mod_id}:${block_id}_stairs",
+    "count": 4
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "${mod_id}:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${color_id}_bed"
+    ]
+  },
+  "criteria": {
+    "has_${color_id}_wool": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${color_id}_wool"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${color_id}_bed"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_${color_id}_wool",
+      "has_the_recipe"
+    ]
+  ]
+}
