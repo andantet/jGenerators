@@ -1,0 +1,3 @@
+{
+  "parent": "${mod_id}:block/cut_${sand_id}_sandstone_slab"
+}

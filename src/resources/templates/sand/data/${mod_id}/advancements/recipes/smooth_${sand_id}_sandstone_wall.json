@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:smooth_${sand_id}_sandstone_wall"
+    ]
+  },
+  "criteria": {
+    "has_smooth_${sand_id}_sandstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:smooth_${sand_id}_sandstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:smooth_${sand_id}_sandstone_wall"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_smooth_${sand_id}_sandstone",
+      "has_the_recipe"
+    ]
+  ]
+}

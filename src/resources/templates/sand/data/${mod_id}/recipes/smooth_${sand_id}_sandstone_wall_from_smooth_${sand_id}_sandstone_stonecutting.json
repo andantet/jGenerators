@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "${mod_id}:smooth_${sand_id}_sandstone"
+  },
+  "result": "${mod_id}:smooth_${sand_id}_sandstone_wall",
+  "count": 1
+}

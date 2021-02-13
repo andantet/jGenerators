@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:cut_${sand_id}_sandstone_slab_from_cut_${sand_id}_sandstone_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_cut_${sand_id}_sandstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:cut_${sand_id}_sandstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:cut_${sand_id}_sandstone_slab_from_cut_${sand_id}_sandstone_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cut_${sand_id}_sandstone",
+      "has_the_recipe"
+    ]
+  ]
+}

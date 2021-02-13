@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "${mod_id}:${sand_id}_sandstone_slab"
+    ]
+  },
+  "criteria": {
+    "has_${sand_id}_sandstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "${mod_id}:${sand_id}_sandstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "${mod_id}:${sand_id}_sandstone_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_${sand_id}_sandstone",
+      "has_the_recipe"
+    ]
+  ]
+}

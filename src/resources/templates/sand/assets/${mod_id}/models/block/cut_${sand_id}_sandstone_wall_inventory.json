@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "${mod_id}:block/cut_${sand_id}_sandstone"
+  }
+}
