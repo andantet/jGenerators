@@ -30,7 +30,7 @@ public class Template {
         this.id = id;
         this.rawDefinitions = rawDefinitions;
         this.files = files;
-        this.outputDirectory = JGenerators.getOutputDirectory() + "/"+ this.getId();
+        this.outputDirectory = JGenerators.getOutputDirectory() + "_" + this.id;
     }
 
     public String getId() {
@@ -40,8 +40,11 @@ public class Template {
         return outputDirectory;
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void generate() throws IOException {
+        new Template(this.id, this.rawDefinitions, this.files).generateFiles();
+    }
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void generateFiles() throws IOException {
         new File(this.getOutputDirectory()).mkdirs();
         this.rawDefinitions.toMap().forEach((definitionId, definitionName) -> this.definitions.put(definitionId, InputUtils.getString(JSONObject.valueToString(definitionName))));
         this.builtDefinitions = this.definitions.build();
@@ -62,7 +65,7 @@ public class Template {
             new JSONObject()
                 .put("lines_read", this.linesRead)
                 .put("files_read", this.filesRead)
-            .toString(2), "/analytics.json"
+                .toString(2), "/analytics.json"
         );
 
         // open output directory

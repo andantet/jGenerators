@@ -23,7 +23,6 @@ public class JGenerators {
     protected static final Logger LOGGER = LogManager.getLogger(NAME);
 
     private static final String INPUT_DIRECTORY = System.getProperty("user.dir") + "/assets/templates/";
-    private static final String OUTPUT_DIRECTORY = "output/" + LocalDateTime.now().toString().replace(":", "");
 
     public static void main(String[] args) throws IOException {
         JGenerators.log("Starting...");
@@ -99,7 +98,7 @@ public class JGenerators {
         return INPUT_DIRECTORY;
     }
     public static String getOutputDirectory() {
-        return OUTPUT_DIRECTORY;
+        return "output/" + LocalDateTime.now().toString().replace(":", ".");
     }
 
     public static void log(Level level, String msg) {
