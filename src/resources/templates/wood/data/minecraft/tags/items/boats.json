@@ -1,6 +1,0 @@
-{
-    "replace": false,
-    "values": [
-        "${mod_id}:${wood_id}_boat"
-    ]
-}

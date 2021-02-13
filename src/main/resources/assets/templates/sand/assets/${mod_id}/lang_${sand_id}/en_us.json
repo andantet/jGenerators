@@ -1,0 +1,16 @@
+{
+  "block.${mod_id}.${sand_id}_sand": "${sand_name} Sand",
+  "block.${mod_id}.${sand_id}_sandstone": "${sand_name} Sandstone",
+  "block.${mod_id}.chiseled_${sand_id}_sandstone": "Chiseled ${sand_name} Sandstone",
+  "block.${mod_id}.${sand_id}_sandstone_wall": "${sand_name} Sandstone Wall",
+  "block.${mod_id}.${sand_id}_sandstone_slab": "${sand_name} Sandstone Slab",
+  "block.${mod_id}.${sand_id}_sandstone_stairs": "${sand_name} Sandstone Stairs",
+  "block.${mod_id}.cut_${sand_id}_sandstone": "Cut ${sand_name} Sandstone",
+  "block.${mod_id}.cut_${sand_id}_sandstone_wall": "Cut ${sand_name} Sandstone Wall",
+  "block.${mod_id}.cut_${sand_id}_sandstone_slab": "Cut ${sand_name} Sandstone Slab",
+  "block.${mod_id}.cut_${sand_id}_sandstone_stairs": "Cut ${sand_name} Sandstone Stairs",
+  "block.${mod_id}.smooth_${sand_id}_sandstone": "Smooth ${sand_name} Sandstone",
+  "block.${mod_id}.smooth_${sand_id}_sandstone_wall": "Smooth ${sand_name} Sandstone Wall",
+  "block.${mod_id}.smooth_${sand_id}_sandstone_slab": "Smooth ${sand_name} Sandstone Slab",
+  "block.${mod_id}.smooth_${sand_id}_sandstone_stairs": "Smooth ${sand_name} Sandstone Stairs"
+}

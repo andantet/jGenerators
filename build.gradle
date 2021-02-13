@@ -1,0 +1,67 @@
+plugins {
+  id "java"
+  id "maven-publish"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+if (System.env.CI == "true") {
+  def branch
+  branch = System.env.GITHUB_REF
+  branch = branch.substring(branch.lastIndexOf("/") + 1)
+
+  version = "${project.version}+a${System.env.GITHUB_RUN_NUMBER}.${branch}"
+} else {
+  version = "${project.version}"
+}
+
+repositories {
+  jcenter()
+  mavenCentral()
+}
+
+dependencies {
+  implementation "com.github.anandvarkeyphilips:json-java-ordered:${project.json_version}"
+  compile "com.github.anandvarkeyphilips:json-java-ordered:${project.json_version}"
+
+  implementation "log4j:log4j:${project.log4j_version}"
+  compile "log4j:log4j:${project.log4j_version}"
+
+  implementation "com.google.guava:guava:${project.guava_version}-jre"
+  compile "com.google.guava:guava:${project.guava_version}-jre"
+}
+
+sourceSets {
+  main {
+      java.srcDir "src/main/java"
+      resources.srcDir "src/main/resources"
+  }
+}
+
+jar {
+  manifest {
+    attributes(
+      "Class-Path": configurations.compile.collect { it.getName() }.join(" "),
+      "Main-Class": "${project.package}.${project.main_class}"
+    )
+  }
+
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+  from "LICENSE"
+}
+
+publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/andantedevs/jGenerators")
+      credentials {
+        username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+        password = project.findProperty("gpr.key") ?: System.getenv("PASSWORD")
+      }
+    }
+  }
+}

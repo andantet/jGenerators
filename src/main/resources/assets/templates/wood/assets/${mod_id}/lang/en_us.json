@@ -1,0 +1,20 @@
+{
+    "block.${mod_id}.${wood_id}_planks": "${wood_name} Planks",
+    "block.${mod_id}.${wood_id}_sapling": "${wood_name} Sapling",
+    "block.${mod_id}.${wood_id}_door": "${wood_name} Door",
+    "block.${mod_id}.${wood_id}_wood": "${wood_name} Wood",
+    "block.${mod_id}.${wood_id}_log": "${wood_name} Log",
+    "block.${mod_id}.stripped_${wood_id}_log": "Stripped ${wood_name} Log",
+    "block.${mod_id}.stripped_${wood_id}_wood": "Stripped ${wood_name} Wood",
+    "block.${mod_id}.${wood_id}_leaves": "${wood_name} Leaves",
+    "block.${mod_id}.${wood_id}_slab": "${wood_name} Slab",
+    "block.${mod_id}.${wood_id}_stairs": "${wood_name} Stairs",
+    "block.${mod_id}.${wood_id}_sign": "${wood_name} Sign",
+    "block.${mod_id}.${wood_id}_wall_sign": "${wood_name} Wall Sign",
+    "block.${mod_id}.${wood_id}_pressure_plate": "${wood_name} Pressure Plate",
+    "block.${mod_id}.${wood_id}_button": "${wood_name} Button",
+    "block.${mod_id}.${wood_id}_fence": "${wood_name} Fence",
+    "block.${mod_id}.${wood_id}_fence_gate": "${wood_name} Fence Gate",
+    "block.${mod_id}.potted_${wood_id}_sapling": "Potted ${wood_name} Sapling",
+    "item.${mod_id}.${wood_id}_boat": "${wood_name} Boat"
+}
