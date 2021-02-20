@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,11 +12,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Template {
     private final String id;
     private final JSONObject rawDefinitions;
+    @Nullable
+    private final JSONObject preDefinitions;
     private final List<File> files;
     private final String outputDirectory;
 
@@ -25,9 +29,10 @@ public class Template {
     private int filesRead;
     private int linesRead;
 
-    public Template(String id, JSONObject rawDefinitions, List<File> files) {
+    public Template(String id, JSONObject rawDefinitions, @Nullable JSONObject preDefinitions, List<File> files) {
         this.id = id;
         this.rawDefinitions = rawDefinitions;
+        this.preDefinitions = preDefinitions;
         this.files = files;
         this.outputDirectory = JGenerators.getOutputDirectory();
     }
@@ -40,14 +45,14 @@ public class Template {
     }
 
     public void generate() throws IOException {
-        new Template(this.id, this.rawDefinitions, this.files).generateFiles();
+        new Template(this.id, this.rawDefinitions, this.preDefinitions, this.files).generateFiles();
     }
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void generateFiles() throws IOException {
         JGenerators.log("Generating from '" + this.getId() + "'");
 
         new File(this.getOutputDirectory()).mkdirs();
-        this.rawDefinitions.toMap().forEach((definitionId, definitionName) -> this.definitions.put(definitionId, InputUtils.getString(JSONObject.valueToString(definitionName).replaceAll("\"(.+)\"", "$1"))));
+        this.rawDefinitions.toMap().forEach((definitionId, definitionName) -> this.definitions.put(definitionId, this.checkPreDefinitionsHas(definitionId) ? Objects.requireNonNull(this.preDefinitions).getString(definitionId) : InputUtils.getString(JSONObject.valueToString(definitionName).replaceAll("\"(.+)\"", "$1"))));
         this.builtDefinitions = this.definitions.build();
 
         JGenerators.log("Generating...");
@@ -70,6 +75,15 @@ public class Template {
         );
 
         JGenerators.log("Generated " + this.files.size() + " from " + this + "!");
+    }
+
+    private boolean checkPreDefinitionsHas(String definitionId) {
+        if (this.preDefinitions != null && this.preDefinitions.has(definitionId)) {
+            JGenerators.log("Using predefined '" + this.preDefinitions.getString(definitionId) + "' for definition '" + definitionId  + "'");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private String replaceWithDefinitions(File file) {

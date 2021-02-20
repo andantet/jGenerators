@@ -1,0 +1,5 @@
+UwU ${predefined_variable} OwO
+
+}w{ ${normal_variable} \\w\\
+
+${this_will_not_be_changed} ${} {} $ ${ }

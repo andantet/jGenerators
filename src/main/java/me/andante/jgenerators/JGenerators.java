@@ -36,7 +36,7 @@ public class JGenerators {
         File[] rawTemplates = JGenerators.getResource("").listFiles();
         assert rawTemplates != null;
         for (File rawTemplateFolder : rawTemplates) {
-            if (!rawTemplateFolder.isFile()) {
+            if (rawTemplateFolder.isDirectory()) {
                 final String templateId = rawTemplateFolder.getName();
 
                 // load definitions
@@ -46,15 +46,24 @@ public class JGenerators {
                 try (Stream<String> stream = Files.lines(Paths.get(definitionsFile.toString()), StandardCharsets.UTF_8)) {
                     stream.forEach(s -> contentsBuilder.append(s).append("\n"));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    JGenerators.log(Level.ERROR, "Folder '" + templateId + "' does not contain a definitions.json");
+                    continue;
                 }
 
                 // get json object from definitions string
                 JSONObject definitions = new JSONObject(contentsBuilder.toString());
 
+                String preDefinitionsStr = "predefinitions";
+                JSONObject preDefinitions = null;
+                if (definitions.has(preDefinitionsStr)) {
+                    preDefinitions = definitions.getJSONObject(preDefinitionsStr);
+                    definitions.remove(preDefinitionsStr);
+                }
+
                 // add to list of templates
                 Template template = new Template(
-                    templateId, definitions,
+                    templateId,
+                    definitions, preDefinitions,
                     Files.walk(new File(definitionsFile.getParent()).toPath())
                         .filter(p -> {
                             String fileName = p.toFile().getName();
@@ -85,14 +94,18 @@ public class JGenerators {
             for (String templateToGenerate : templatesToGenerate) {
                 try {
                     templates.get(templateToGenerate).generate();
-                } catch (NullPointerException npe) {
+                } catch (NullPointerException e) {
                     JGenerators.log(Level.ERROR, "Template with id '" + templateToGenerate + "' is invalid");
                 }
             }
 
-            // open output directory
-            JGenerators.log("Opening " + OUTPUT_DIRECTORY + "...");
-            Desktop.getDesktop().open(new File(OUTPUT_DIRECTORY));
+            try {
+                // open output directory
+                JGenerators.log("Opening " + OUTPUT_DIRECTORY + "...");
+                Desktop.getDesktop().open(new File(OUTPUT_DIRECTORY));
+            } catch (IllegalArgumentException e) {
+                JGenerators.log(Level.WARN, "Output directory was never created, not opening");
+            }
         }
     }
 

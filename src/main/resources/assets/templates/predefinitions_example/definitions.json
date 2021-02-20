@@ -1,0 +1,8 @@
+{
+  "predefined_variable": "A predefined variable",
+  "normal_variable": "A normal variable",
+
+  "predefinitions": {
+    "predefined_variable": "This is always this, useful for batch generation"
+  }
+}
