@@ -7,6 +7,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +24,7 @@ public class JGenerators {
     protected static final Logger LOGGER = LogManager.getLogger(NAME);
 
     private static final String INPUT_DIRECTORY = System.getProperty("user.dir") + "/assets/templates/";
+    private static final String OUTPUT_DIRECTORY = "output/" + LocalDateTime.now().toString().replace(":", ".");
 
     public static void main(String[] args) throws IOException {
         JGenerators.log("Starting...");
@@ -71,7 +73,7 @@ public class JGenerators {
 
         JGenerators.requestAndGenerateTemplates(templatesBuilder.build(), Arrays.toString(availableTemplates));
 
-        JGenerators.log("Closing...");
+        JGenerators.log("Closing...\n");
     }
 
     private static void requestAndGenerateTemplates(Map<String, Template> templates, String availableTemplates) throws IOException {
@@ -87,6 +89,10 @@ public class JGenerators {
                     JGenerators.log(Level.ERROR, "Template with id '" + templateToGenerate + "' is invalid");
                 }
             }
+
+            // open output directory
+            JGenerators.log("Opening " + OUTPUT_DIRECTORY + "...");
+            Desktop.getDesktop().open(new File(OUTPUT_DIRECTORY));
         }
     }
 
@@ -98,7 +104,7 @@ public class JGenerators {
         return INPUT_DIRECTORY;
     }
     public static String getOutputDirectory() {
-        return "output/" + LocalDateTime.now().toString().replace(":", ".");
+        return OUTPUT_DIRECTORY;
     }
 
     public static void log(Level level, String msg) {

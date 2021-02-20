@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class Template {
         this.id = id;
         this.rawDefinitions = rawDefinitions;
         this.files = files;
-        this.outputDirectory = JGenerators.getOutputDirectory() + "_" + this.id;
+        this.outputDirectory = JGenerators.getOutputDirectory();
     }
 
     public String getId() {
@@ -45,8 +44,10 @@ public class Template {
     }
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void generateFiles() throws IOException {
+        JGenerators.log("Generating from '" + this.getId() + "'");
+
         new File(this.getOutputDirectory()).mkdirs();
-        this.rawDefinitions.toMap().forEach((definitionId, definitionName) -> this.definitions.put(definitionId, InputUtils.getString(JSONObject.valueToString(definitionName))));
+        this.rawDefinitions.toMap().forEach((definitionId, definitionName) -> this.definitions.put(definitionId, InputUtils.getString(JSONObject.valueToString(definitionName).replaceAll("\"(.+)\"", "$1"))));
         this.builtDefinitions = this.definitions.build();
 
         JGenerators.log("Generating...");
@@ -67,10 +68,6 @@ public class Template {
                 .put("files_read", this.filesRead)
                 .toString(2), "/analytics.json"
         );
-
-        // open output directory
-        JGenerators.log("Opening " + this.getOutputDirectory() + "...");
-        Desktop.getDesktop().open(new File(outputDirectory));
 
         JGenerators.log("Generated " + this.files.size() + " from " + this + "!");
     }
