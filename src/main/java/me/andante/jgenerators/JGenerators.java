@@ -23,8 +23,8 @@ public class JGenerators {
     public static final String NAME = "jGenerators";
     protected static final Logger LOGGER = LogManager.getLogger(NAME);
 
-    private static final String INPUT_DIRECTORY = System.getProperty("user.dir") + "/assets/templates/";
-    private static final String OUTPUT_DIRECTORY = "output/" + LocalDateTime.now().toString().replace(":", ".");
+    private static final String INPUT_DIRECTORY = System.getProperty("user.dir") + File.separator + "assets" + File.separator + "templates" + File.separator;
+    private static final String OUTPUT_DIRECTORY = "output" + File.separator + LocalDateTime.now().toString().replace(":", ".");
 
     public static void main(String[] args) throws IOException {
         JGenerators.log("Starting...");
@@ -40,7 +40,7 @@ public class JGenerators {
                 final String templateId = rawTemplateFolder.getName();
 
                 // load definitions
-                File definitionsFile = JGenerators.getResource(templateId + "/definitions.json");
+                File definitionsFile = JGenerators.getResource(templateId + File.separator + "definitions.json");
                 // build json string
                 StringBuilder contentsBuilder = new StringBuilder();
                 try (Stream<String> stream = Files.lines(Paths.get(definitionsFile.toString()), StandardCharsets.UTF_8)) {

@@ -71,7 +71,7 @@ public class Template {
             new JSONObject()
                 .put("lines_read", this.linesRead)
                 .put("files_read", this.filesRead)
-                .toString(2), "/analytics.json"
+                .toString(2), File.separator + "analytics.json"
         );
 
         JGenerators.log("Generated " + this.files.size() + " from " + this + "!");
@@ -113,7 +113,7 @@ public class Template {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void write(String data, String loc) throws IOException {
-        File file = new File(this.getOutputDirectory() + "/" + loc);
+        File file = new File(this.getOutputDirectory() + File.separator + loc);
         new File(file.getParent()).mkdirs();
 
         if (file.delete()) JGenerators.log(Level.WARN, "Replaced file " + file.getName());
