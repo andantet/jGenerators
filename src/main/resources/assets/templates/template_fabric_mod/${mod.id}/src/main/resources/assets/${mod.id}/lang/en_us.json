@@ -1,0 +1,4 @@
+{
+  "mod.${mod.id}.name": "${mod.name}",
+  "mod.${mod.id}.description": "${mod.description}"
+}

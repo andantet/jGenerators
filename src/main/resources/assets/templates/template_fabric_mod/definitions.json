@@ -1,0 +1,10 @@
+{
+  "mod.id": "Mod ID",
+  "mod.name": "Mod Name",
+  "mod.description": "Mod Description",
+  "mod.author": "Mod Author",
+  "mod.id_java": "Mod Root Class Name",
+  "mod.maven_group": "Mod Root Package",
+  "mod.github_repo": "Mod GitHub Repo",
+  "mod.homepage": "Mod Homepage"
+}

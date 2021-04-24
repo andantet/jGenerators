@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod.id}",
+  "version": "${version}",
+
+  "name": "${mod.name}",
+  "description": "${mod.description}",
+  "authors": [
+    "${mod.author}"
+  ],
+  "contact": {
+    "homepage": "${mod.homepage}",
+    "sources": "https://github.com/${mod.github_repo}",
+    "issues": "https://github.com/${mod.github_repo}/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/${mod.id}/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "${mod.maven_group}.ExampleMod"
+    ]
+  },
+  "mixins": [
+    "${mod.id}.mixins.json"
+  ],
+  "accessWidener": "${mod.id}.accesswidener",
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  }
+}
