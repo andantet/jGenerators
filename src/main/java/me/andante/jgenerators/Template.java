@@ -47,21 +47,38 @@ public class Template {
     public void generate() throws IOException {
         new Template(this.id, this.rawDefinitions, this.preDefinitions, this.files).generateFiles();
     }
-    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressWarnings({"ResultOfMethodCallIgnored","UnstableApiUsage"})
     private void generateFiles() throws IOException {
         JGenerators.log("Generating from '" + this.getId() + "'");
 
         new File(this.getOutputDirectory()).mkdirs();
-        this.rawDefinitions.toMap().forEach((definitionId, definitionName) -> this.definitions.put(definitionId, this.checkPreDefinitionsHas(definitionId) ? Objects.requireNonNull(this.preDefinitions).getString(definitionId) : InputUtils.getString(JSONObject.valueToString(definitionName).replaceAll("\"(.+)\"", "$1"))));
+        this.rawDefinitions.toMap().forEach(
+            (definitionId, definitionName) -> this.definitions.put(
+                definitionId, this.checkPreDefinitionsHas(definitionId)
+                    ? Objects.requireNonNull(this.preDefinitions).getString(definitionId)
+                    : InputUtils.getString(JSONObject.valueToString(definitionName).replaceAll("\"(.+)\"", "$1"))
+            )
+        );
         this.builtDefinitions = this.definitions.build();
 
         JGenerators.log("Generating...");
 
         files.forEach(file -> {
             try {
-                this.write(this.replaceWithDefinitions(file), this.replaceWithDefinitions(file.getPath().replace(JGenerators.getInputDirectory() + this.getId(), "")));
+                if (!Files.probeContentType(Paths.get(file.getPath())).contains("archive")) {
+                    try {
+                        this.write(this.replaceWithDefinitions(file), this.replaceWithDefinitions(file.getPath().replace(JGenerators.getInputDirectory() + this.getId(), "")));
+                    } catch (Exception e) {
+                        JGenerators.log(Level.ERROR, "Could not write to file " + file.getPath());
+                        e.printStackTrace();
+                    }
+                } else {
+                    File from = new File(file.getPath());
+                    File to = new File(this.replaceWithDefinitions(file.getPath().replace(JGenerators.getInputDirectory() + this.getId(), this.getOutputDirectory())));
+                    to.getParentFile().mkdirs();
+                    com.google.common.io.Files.copy(from, to);
+                }
             } catch (IOException e) {
-                JGenerators.log(Level.ERROR, "Could not write to file " + file.getPath());
                 e.printStackTrace();
             }
         });
@@ -103,7 +120,7 @@ public class Template {
                 contentBuilder.append(s).append("\n");
                 this.linesRead++;
             });
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -114,7 +131,7 @@ public class Template {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void write(String data, String loc) throws IOException {
         File file = new File(this.getOutputDirectory() + File.separator + loc);
-        new File(file.getParent()).mkdirs();
+        file.getParentFile().mkdirs();
 
         if (file.delete()) JGenerators.log(Level.WARN, "Replaced file " + file.getName());
         FileWriter writer = new FileWriter(file);

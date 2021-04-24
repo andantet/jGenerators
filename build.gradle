@@ -17,7 +17,6 @@ if (System.env.CI == "true") {
 }
 
 repositories {
-  jcenter()
   mavenCentral()
 }
 
